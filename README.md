@@ -1,2 +1,2 @@
 # SpaceShooterOO
-Demonstration game using Object Oriented principles
+Demonstration game using Object Oriented principles.
