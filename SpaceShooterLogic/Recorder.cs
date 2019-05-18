@@ -27,14 +27,16 @@ namespace SpaceShooterLogic
         public void StopRecording()
         {
             // write to file
-            BinaryWriter bw = new BinaryWriter(new FileStream("mydata", FileMode.Create));
-
-            foreach (byte b in _recordingData)
+            using (var bw = new BinaryWriter(new FileStream("mydata.dat", FileMode.Create)))
             {
-                bw.Write(b);
-            }
+                foreach (byte b in _recordingData)
+                {
+                    bw.Write(b);
+                }
+                bw.Write(255); // marks eof
 
-            bw.Close();
+                bw.Close();
+            }
         }
     }
 }

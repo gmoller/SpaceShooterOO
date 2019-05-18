@@ -9,21 +9,12 @@ namespace SpaceShooterLogic.GameStates
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
 
-        private readonly bool _mustRecord;
-
-        public GamePlayState(bool record = false)
+        public virtual void Enter()
         {
-            _mustRecord = record;
-        }
-
-        public void Enter()
-        {
-            if (_mustRecord)
-            {
-                Recorder.Instance.StartRecording(1);
-            }
+            IPlayerController playerController = new PlayerController();
 
             GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.5f));
+            GameEntitiesManager.Instance.Player.SetController(playerController);
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.Explosions = new Explosions();
             GameEntitiesManager.Instance.Hud = new Hud();
@@ -31,16 +22,11 @@ namespace SpaceShooterLogic.GameStates
             GameEntitiesManager.Instance.Lives = 3;
         }
 
-        public void Leave()
+        public virtual void Leave()
         {
             GameEntitiesManager.Instance.Player = null;
             GameEntitiesManager.Instance.Enemies = null;
             GameEntitiesManager.Instance.Explosions = null;
-
-            if (_mustRecord)
-            {
-                Recorder.Instance.StopRecording();
-            }
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
@@ -12,6 +11,8 @@ namespace SpaceShooterLogic
         private const float MOVE_SPEED = 240.0f; // pixels per second
         private const int PLAYER_LASER_COOLDOWN = 200; // in milliseconds
         private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
+
+        private IPlayerController _playerController;
 
         private float _timeElapsedSinceLastPlayerShot; // in milliseconds
         private readonly List<Projectile> _projectiles;
@@ -77,6 +78,11 @@ namespace SpaceShooterLogic
             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Red, 1.0f);
         }
 
+        public void SetController(IPlayerController playerController)
+        {
+            _playerController = playerController;
+        }
+
         public void KillPlayer()
         {
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
@@ -113,41 +119,37 @@ namespace SpaceShooterLogic
 
         private void HandleInput(GameTime gameTime)
         {
-            var keyState = Keyboard.GetState();
+            List<PlayerAction> playerActions = _playerController.GetActions();
 
-            byte keysPressed = 0;
-
-            if (keyState.IsKeyDown(Keys.W))
+            foreach (PlayerAction playerAction in playerActions)
             {
-                keysPressed |= 1 << 0; // bit 0
-                Body.Velocity = new Vector2(Body.Velocity.X, -MOVE_SPEED);
-            }
-            if (keyState.IsKeyDown(Keys.S))
-            {
-                keysPressed |= 1 << 1; // bit 1
-                Body.Velocity = new Vector2(Body.Velocity.X, MOVE_SPEED);
-            }
-            if (keyState.IsKeyDown(Keys.A))
-            {
-                keysPressed |= 1 << 2; // bit 2
-                Body.Velocity = new Vector2(-MOVE_SPEED, Body.Velocity.Y);
-            }
-            if (keyState.IsKeyDown(Keys.D))
-            {
-                keysPressed |= 1 << 3; // bit 3
-                Body.Velocity = new Vector2(MOVE_SPEED, Body.Velocity.Y);
-            }
-            if (keyState.IsKeyDown(Keys.Space))
-            {
-                keysPressed |= 1 << 4; // bit 4
-                if (!PlayerLaserOnCooldown(gameTime))
+                switch (playerAction)
                 {
-                    ShootLaser();
-                    StartPlayerLaserCooldown();
+                    case PlayerAction.None:
+                        // do nothing
+                        break;
+                    case PlayerAction.MoveUp:
+                        Body.Velocity = new Vector2(Body.Velocity.X, -MOVE_SPEED);
+                        break;
+                    case PlayerAction.MoveDown:
+                        Body.Velocity = new Vector2(Body.Velocity.X, MOVE_SPEED);
+                        break;
+                    case PlayerAction.MoveLeft:
+                        Body.Velocity = new Vector2(-MOVE_SPEED, Body.Velocity.Y);
+                        break;
+                    case PlayerAction.MoveRight:
+                        Body.Velocity = new Vector2(MOVE_SPEED, Body.Velocity.Y);
+                        break;
+                    case PlayerAction.FireLaser:
+                        if (!PlayerLaserOnCooldown(gameTime))
+                        {
+                            ShootLaser();
+                            StartPlayerLaserCooldown();
+                        }
+
+                        break;
                 }
             }
-
-            Recorder.Instance.RecordData(keysPressed);
         }
 
         private bool PlayerLaserOnCooldown(GameTime gameTime)

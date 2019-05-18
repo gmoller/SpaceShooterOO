@@ -41,12 +41,12 @@ namespace SpaceShooterLogic.GameStates
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.F1)) // record
             {
-                return (true, new GamePlayState(true));
+                return (true, new GamePlayStateWithRecording());
             }
 
             if (keyboardState.IsKeyDown(Keys.F2)) // replay
             {
-                return (true, new GamePlayState());
+                return (true, new GamePlayStateWithReplaying());
             }
 
             MouseState mouseState = Mouse.GetState();

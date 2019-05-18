@@ -47,6 +47,8 @@
     <Compile Include="GameEntitiesManager.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
+    <Compile Include="GameStates\GamePlayStateWithRecording.cs" />
+    <Compile Include="GameStates\GamePlayStateWithReplaying.cs" />
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="Enemies\GunShip.cs" />
@@ -54,9 +56,11 @@
     <Compile Include="MenuButton.cs" />
     <Compile Include="PhysicsBody.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerController.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recorder.cs" />
+    <Compile Include="Replayer.cs" />
     <Compile Include="ScrollingBackground.cs" />
     <Compile Include="ScrollingBackgroundLayer.cs" />
     <Compile Include="SpaceShooterGame.cs" />
