@@ -20,6 +20,20 @@
 /processorParam:TextureFormat=Compressed
 /build:arialHeading.spritefont
 
+#begin arialSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:arialSmall.spritefont
+
+#begin arialTiny.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:arialTiny.spritefont
+
 #begin sndBtnDown.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

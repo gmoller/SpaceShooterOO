@@ -37,8 +37,8 @@ namespace SpaceShooter
             _graphics.PreferredBackBufferHeight = 640;
             _graphics.SynchronizeWithVerticalRetrace = false;
 
-            VariableTimeStep();
-            //FixedTimeStep();
+            //VariableTimeStep();
+            FixedTimeStep();
 
             _graphics.ApplyChanges();
 

@@ -26,8 +26,8 @@ namespace SpaceShooterLogic
             // Load sounds
             AssetsManager.Instance.AddSounds("sndBtnDown", "sndBtnOver", "sndLaser", "sndExplode0", "sndExplode1");
             // Load sprite fonts
-            AssetsManager.Instance.AddSpriteFonts("arialHeading");
-            _font = AssetsManager.Instance.GetSpriteFont("arialHeading");
+            AssetsManager.Instance.AddSpriteFonts("arialHeading", "arialSmall", "arialTiny");
+            _font = AssetsManager.Instance.GetSpriteFont("arialTiny");
 
             _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });
 
@@ -84,7 +84,8 @@ namespace SpaceShooterLogic
             _scrollingBackground.Draw(spriteBatch);
             _gameState.Draw(spriteBatch);
 
-            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(0.0f, 600.0f), Color.White);
+            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(0.0f, 620.0f), Color.Cyan);
+            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(1.0f, 621.0f), Color.White);
 
             spriteBatch.End();
         }
