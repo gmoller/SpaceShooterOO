@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using SpaceShooterUtilities;
 
-namespace SpaceShooterLogic
+namespace SpaceShooterUtilities
 {
     public sealed class Recorder
     {

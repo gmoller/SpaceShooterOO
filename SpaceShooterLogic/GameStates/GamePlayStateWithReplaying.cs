@@ -1,4 +1,6 @@
-﻿namespace SpaceShooterLogic.GameStates
+﻿using SpaceShooterUtilities;
+
+namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayStateWithReplaying : GamePlayState
     {
