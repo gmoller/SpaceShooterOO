@@ -9,7 +9,7 @@ namespace SpaceShooterLogic
     public class Player : Entity
     {
         private const float MOVE_SPEED = 240.0f; // pixels per second
-        private const int PLAYER_LASER_COOLDOWN = 200; // in milliseconds
+        private const int PLAYER_LASER_COOLDOWN = 0; // in milliseconds
         private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
 
         private IPlayerController _playerController;

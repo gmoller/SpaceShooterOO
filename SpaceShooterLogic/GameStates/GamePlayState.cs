@@ -11,13 +11,8 @@ namespace SpaceShooterLogic.GameStates
 
         public virtual void Enter()
         {
-            IPlayerController playerController = new PlayerController();
-
-            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.5f));
-            GameEntitiesManager.Instance.Player.SetController(playerController);
-            GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
-            GameEntitiesManager.Instance.Explosions = new Explosions();
-            GameEntitiesManager.Instance.Hud = new Hud();
+            ResetLevel();
+            SetController();
             GameEntitiesManager.Instance.Score = 0;
             GameEntitiesManager.Instance.Lives = 3;
         }
@@ -27,6 +22,12 @@ namespace SpaceShooterLogic.GameStates
             GameEntitiesManager.Instance.Player = null;
             GameEntitiesManager.Instance.Enemies = null;
             GameEntitiesManager.Instance.Explosions = null;
+        }
+
+        protected virtual void SetController()
+        {
+            IPlayerController playerController = new PlayerController();
+            GameEntitiesManager.Instance.Player.SetController(playerController);
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -58,7 +59,15 @@ namespace SpaceShooterLogic.GameStates
             }
 
             _timeElapsedSinceDied = 0.0f;
+            if (GameEntitiesManager.Instance.Lives > 1)
+            {
+                ResetLevel();
+                GameEntitiesManager.Instance.Lives--;
+                SetController();
+                return false;
+            }
 
+            // out of lives, game over!
             return true;
         }
 
@@ -68,6 +77,14 @@ namespace SpaceShooterLogic.GameStates
             GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
             GameEntitiesManager.Instance.Explosions.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
+        }
+
+        private void ResetLevel()
+        {
+            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.5f));
+            GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
+            GameEntitiesManager.Instance.Explosions = new Explosions();
+            GameEntitiesManager.Instance.Hud = new Hud();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace SpaceShooterLogic
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(_font, $"Score: {GameEntitiesManager.Instance.Score}", Vector2.Zero, Color.White);
+            spriteBatch.DrawString(_font, $"Lives: {GameEntitiesManager.Instance.Lives}", new Vector2(0.0f, 50.0f), Color.White);
         }
     }
 }

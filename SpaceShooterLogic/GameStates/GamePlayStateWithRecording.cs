@@ -9,6 +9,10 @@ namespace SpaceShooterLogic.GameStates
             base.Enter();
 
             Recorder.Instance.StartRecording(1);
+        }
+
+        protected override void SetController()
+        {
             IPlayerController playerController = new PlayerControllerWithRecorder();
             GameEntitiesManager.Instance.Player.SetController(playerController);
         }

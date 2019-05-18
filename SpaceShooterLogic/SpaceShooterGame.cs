@@ -9,6 +9,8 @@ namespace SpaceShooterLogic
 {
     public class SpaceShooterGame
     {
+        private FramesPerSecondCounter _fps;
+        private SpriteFont _font;
         private ScrollingBackground _scrollingBackground;
 
         private IGameState _gameState;
@@ -25,6 +27,7 @@ namespace SpaceShooterLogic
             AssetsManager.Instance.AddSounds("sndBtnDown", "sndBtnOver", "sndLaser", "sndExplode0", "sndExplode1");
             // Load sprite fonts
             AssetsManager.Instance.AddSpriteFonts("arialHeading");
+            _font = AssetsManager.Instance.GetSpriteFont("arialHeading");
 
             _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });
 
@@ -51,13 +54,15 @@ namespace SpaceShooterLogic
                 "sprBtnPlayHover",
                 new Vector2(x, y));
 
-            _gameState = new MainMenuState(
-                button1);
+            _gameState = new MainMenuState(button1);
             _gameState.Enter();
+
+            _fps = new FramesPerSecondCounter();
         }
 
         public void Update(GameTime gameTime)
         {
+            _fps.Update(gameTime);
             _scrollingBackground.Update(gameTime);
 
             (bool changeGameState, IGameState newGameState) returnGameState = _gameState.Update(gameTime);
@@ -73,11 +78,14 @@ namespace SpaceShooterLogic
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            _fps.Draw();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap);
 
             _scrollingBackground.Draw(spriteBatch);
             _gameState.Draw(spriteBatch);
-            
+
+            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(0.0f, 600.0f), Color.White);
+
             spriteBatch.End();
         }
     }
