@@ -53,7 +53,6 @@
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="Enemies\GunShip.cs" />
     <Compile Include="Hud.cs" />
-    <Compile Include="MenuButton.cs" />
     <Compile Include="PhysicsBody.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerController.cs" />

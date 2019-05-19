@@ -14,6 +14,7 @@ namespace SpaceShooterUtilities
         public Vector2 ScreenDimensions => new Vector2(Viewport.Width, Viewport.Height);
         public int ScreenWidth => Viewport.Width;
         public int ScreenHeight => Viewport.Height;
+        public bool IsMouseVisible { get; set; }
 
         private DeviceManager()
         {

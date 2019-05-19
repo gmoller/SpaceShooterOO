@@ -90,7 +90,7 @@ namespace GuiControls
             }
             else
             {
-                throw new NotImplementedException($"{verticalAlignment}{horizontalAlignment} alignment has not been implemented yet.");
+                throw new NotImplementedException($"{verticalAlignment}{horizontalAlignment} alignment has not been implemented.");
             }
 
             Vector2 topLeftPosition = position - offset;

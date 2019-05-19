@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GuiControls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GuiControls;
 using SpaceShooterLogic.GameStates;
 using SpaceShooterUtilities;
 
@@ -34,30 +34,7 @@ namespace SpaceShooterLogic
 
             _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });
 
-            float x = DeviceManager.Instance.ScreenWidth * 0.5f;
-            float y = DeviceManager.Instance.ScreenHeight * 0.5f;
-
-            var button1 = new MenuButton(
-                "sprBtnPlay",
-                "sprBtnPlayDown",
-                "sprBtnPlayHover",
-                new Vector2(x, y));
-
-            y += 50;
-            var button2 = new MenuButton(
-                "sprBtnPlay",
-                "sprBtnPlayDown",
-                "sprBtnPlayHover",
-                new Vector2(x, y));
-
-            y += 50;
-            var button3 = new MenuButton(
-                "sprBtnPlay",
-                "sprBtnPlayDown",
-                "sprBtnPlayHover",
-                new Vector2(x, y));
-
-            _gameState = new MainMenuState(button1);
+            _gameState = new MainMenuState();
             _gameState.Enter();
 
             _fps = new FramesPerSecondCounter();

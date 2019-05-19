@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using GuiControls;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GuiControls;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
@@ -10,39 +10,33 @@ namespace SpaceShooterLogic.GameStates
     public class MainMenuState : IGameState
     {
         private readonly Label _lblTitle;
-        private readonly List<MenuButton> _menuItems;
+        private readonly Button _btnPlay;
 
-        public MainMenuState(params MenuButton[] menuItems)
+        private bool _startGame;
+
+        public MainMenuState()
         {
             var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
+
             string title = "SPACE SHOOTER";
             _lblTitle = new Label(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
                 new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f),
                 title, Color.Red) {TextShadow = true, TextShadowOffset = new Vector2(5.0f, 5.0f)};
-            _menuItems = new List<MenuButton>();
 
-            foreach (MenuButton item in menuItems)
-            {
-                _menuItems.Add(item);
-            }
+            _btnPlay = new Button(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
+                DeviceManager.Instance.ScreenDimensions * 0.5f, new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnPlay",
+                "sndBtn");
+            _btnPlay.OnClick += btnPlay_Click;
         }
 
         public void Enter()
         {
-            //IsMouseVisible = true;
-            foreach (MenuButton item in _menuItems)
-            {
-                item.IsActive = true;
-            }
+            DeviceManager.Instance.IsMouseVisible = true;
         }
 
         public void Leave()
         {
-            foreach (MenuButton item in _menuItems)
-            {
-                item.IsActive = false;
-            }
-            //IsMouseVisible = false;
+            DeviceManager.Instance.IsMouseVisible = false;
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -58,35 +52,11 @@ namespace SpaceShooterLogic.GameStates
                 return (true, new GamePlayStateWithReplaying());
             }
 
-            MouseState mouseState = Mouse.GetState();
+            _btnPlay.Update(gameTime);
 
-            foreach (MenuButton item in _menuItems)
+            if (_startGame)
             {
-                if (item.BoundingBox.Contains(mouseState.Position))
-                {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        item.SetDown(true);
-                        item.SetHovered(false);
-                    }
-                    else
-                    {
-                        item.SetDown(false);
-                        item.SetHovered(true);
-                    }
-
-                    if (mouseState.LeftButton == ButtonState.Released && item.LastIsDown)
-                    {
-                        return (true, new GamePlayState());
-                    }
-                }
-                else
-                {
-                    item.SetDown(false);
-                    item.SetHovered(false);
-                }
-
-                item.LastIsDown = mouseState.LeftButton == ButtonState.Pressed;
+                return (true, new GamePlayState());
             }
 
             return (false, null);
@@ -96,10 +66,12 @@ namespace SpaceShooterLogic.GameStates
         {
             _lblTitle.Draw(spriteBatch);
 
-            foreach (MenuButton item in _menuItems)
-            {
-                item.Draw(spriteBatch);
-            }
+            _btnPlay.Draw(spriteBatch);
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            _startGame = true;
         }
     }
 }

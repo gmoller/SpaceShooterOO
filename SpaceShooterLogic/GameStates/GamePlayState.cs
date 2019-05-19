@@ -41,7 +41,7 @@ namespace SpaceShooterLogic.GameStates
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
                 {
-                    return (true, new GameOverState(new MenuButton("sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", DeviceManager.Instance.ScreenDimensions * 0.5f)));
+                    return (true, new GameOverState());
                 }
             }
 

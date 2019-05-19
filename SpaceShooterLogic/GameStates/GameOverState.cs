@@ -1,7 +1,7 @@
-﻿using GuiControls;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using GuiControls;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
@@ -9,63 +9,42 @@ namespace SpaceShooterLogic.GameStates
     public class GameOverState : IGameState
     {
         private readonly Label _lblGameOver;
-        private readonly MenuButton _restartButton;
+        private readonly Button _btnRestart;
 
-        public GameOverState(MenuButton restartButton)
+        private bool _startGame;
+
+        public GameOverState()
         {
             var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
+
             string title = "GAME OVER";
             _lblGameOver = new Label(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
                 new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f),
                 title, Color.White);
 
-            _restartButton = restartButton;
+            _btnRestart = new Button(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
+                DeviceManager.Instance.ScreenDimensions * 0.5f, new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnRestart",
+                "sndBtn");
+            _btnRestart.OnClick += btnRestart_Click;
         }
 
         public void Enter()
         {
-            //IsMouseVisible = true;
-            _restartButton.IsActive = true;
+            DeviceManager.Instance.IsMouseVisible = true;
         }
 
         public void Leave()
         {
-            _restartButton.IsActive = false;
-            //IsMouseVisible = false;
+            DeviceManager.Instance.IsMouseVisible = false;
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
         {
-            if (_restartButton.IsActive)
+            _btnRestart.Update(gameTime);
+
+            if (_startGame)
             {
-                MouseState mouseState = Mouse.GetState();
-                if (_restartButton.BoundingBox.Contains(mouseState.Position))
-                {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        _restartButton.SetDown(true);
-                        _restartButton.SetHovered(false);
-                    }
-                    else
-                    {
-                        _restartButton.SetDown(false);
-                        _restartButton.SetHovered(true);
-                    }
-                    if (mouseState.LeftButton == ButtonState.Released && _restartButton.LastIsDown)
-                    {
-                        return (true, new GamePlayState());
-                    }
-                }
-                else
-                {
-                    _restartButton.SetDown(false);
-                    _restartButton.SetHovered(false);
-                }
-                _restartButton.LastIsDown = mouseState.LeftButton == ButtonState.Pressed;
-            }
-            else
-            {
-                _restartButton.IsActive = true;
+                return (true, new GamePlayState());
             }
 
             return (false, null);
@@ -76,7 +55,12 @@ namespace SpaceShooterLogic.GameStates
             _lblGameOver.Alpha = RandomGenerator.Instance.GetRandomFloat(0.5f, 1.0f);
             _lblGameOver.Draw(spriteBatch);
 
-            _restartButton.Draw(spriteBatch);
+            _btnRestart.Draw(spriteBatch);
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            _startGame = true;
         }
     }
 }

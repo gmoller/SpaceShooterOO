@@ -112,6 +112,10 @@
       <Project>{a76cc27f-a50d-413a-a263-422b412302c9}</Project>
       <Name>SpaceShooterLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpaceShooterUtilities\SpaceShooterUtilities.csproj">
+      <Project>{473b293b-05e8-4e9f-acc6-49257bf4f258}</Project>
+      <Name>SpaceShooterUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

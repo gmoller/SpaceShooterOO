@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceShooterLogic;
+using SpaceShooterUtilities;
 
 namespace SpaceShooter
 {
@@ -31,7 +32,7 @@ namespace SpaceShooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
 
             _graphics.PreferredBackBufferWidth = 480;
             _graphics.PreferredBackBufferHeight = 640;
@@ -87,6 +88,8 @@ namespace SpaceShooter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            IsMouseVisible = DeviceManager.Instance.IsMouseVisible;
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
