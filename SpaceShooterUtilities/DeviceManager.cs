@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace SpaceShooterUtilities
 {
@@ -8,8 +9,11 @@ namespace SpaceShooterUtilities
 
         public static DeviceManager Instance => Lazy.Value;
 
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
+        public Rectangle Viewport { get; set; }
+
+        public Vector2 ScreenDimensions => new Vector2(Viewport.Width, Viewport.Height);
+        public int ScreenWidth => Viewport.Width;
+        public int ScreenHeight => Viewport.Height;
 
         private DeviceManager()
         {

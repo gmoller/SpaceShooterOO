@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceShooterLogic", "SpaceS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceShooterUtilities", "SpaceShooterUtilities\SpaceShooterUtilities.csproj", "{473B293B-05E8-4E9F-ACC6-49257BF4F258}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiControls", "GuiControls\GuiControls.csproj", "{66F72420-0179-40F6-BD39-AAE0ED6926A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{473B293B-05E8-4E9F-ACC6-49257BF4F258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{473B293B-05E8-4E9F-ACC6-49257BF4F258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{473B293B-05E8-4E9F-ACC6-49257BF4F258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F72420-0179-40F6-BD39-AAE0ED6926A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F72420-0179-40F6-BD39-AAE0ED6926A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F72420-0179-40F6-BD39-AAE0ED6926A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F72420-0179-40F6-BD39-AAE0ED6926A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

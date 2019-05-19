@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GuiControls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceShooterUtilities;
@@ -7,21 +8,30 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GameOverState : IGameState
     {
+        private readonly Label _lblGameOver;
         private readonly MenuButton _restartButton;
 
         public GameOverState(MenuButton restartButton)
         {
+            var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
+            string title = "GAME OVER";
+            _lblGameOver = new Label(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
+                new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f),
+                title, Color.White);
+
             _restartButton = restartButton;
         }
 
         public void Enter()
         {
+            //IsMouseVisible = true;
             _restartButton.IsActive = true;
         }
 
         public void Leave()
         {
             _restartButton.IsActive = false;
+            //IsMouseVisible = false;
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -63,9 +73,9 @@ namespace SpaceShooterLogic.GameStates
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            string title = "GAME OVER";
-            var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
-            spriteBatch.DrawString(fontArial, title, new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f - (fontArial.MeasureString(title).X * 0.5f), DeviceManager.Instance.ScreenHeight * 0.2f), Color.White);
+            _lblGameOver.Alpha = RandomGenerator.Instance.GetRandomFloat(0.5f, 1.0f);
+            _lblGameOver.Draw(spriteBatch);
+
             _restartButton.Draw(spriteBatch);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GuiControls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,11 +16,13 @@ namespace SpaceShooterLogic
 
         private IGameState _gameState;
 
+        private Label _lblTest;
+        private Label _lblFps;
+
         public void LoadContent(ContentManager content, int width, int height)
         {
             AssetsManager.Instance.ContentManager = content;
-            DeviceManager.Instance.ScreenWidth = width;
-            DeviceManager.Instance.ScreenHeight = height;
+            DeviceManager.Instance.Viewport = new Rectangle(0, 0, width, height);
 
             // Load textures
             AssetsManager.Instance.AddTextures("sprBg0", "sprBg1", "sprBtnPlay", "sprBtnPlayDown", "sprBtnPlayHover", "sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", "sprPlayer", "sprLaserPlayer", "sprLaserEnemy0", "sprExplosion", "sprEnemy0", "sprEnemy1", "sprEnemy2");
@@ -58,6 +61,9 @@ namespace SpaceShooterLogic
             _gameState.Enter();
 
             _fps = new FramesPerSecondCounter();
+
+            _lblTest = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(0.0f, 0.0f), "Testing, testing, testing, 1, 2, 3...", Color.Cyan, 1.0f, 0.5f);
+            _lblFps = new Label(_font, VerticalAlignment.Bottom, HorizontalAlignment.Right, DeviceManager.Instance.ScreenDimensions, "FPS: ", Color.Cyan) { TextShadow = true };
         }
 
         public void Update(GameTime gameTime)
@@ -84,8 +90,9 @@ namespace SpaceShooterLogic
             _scrollingBackground.Draw(spriteBatch);
             _gameState.Draw(spriteBatch);
 
-            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(0.0f, 620.0f), Color.Cyan);
-            spriteBatch.DrawString(_font, $"Fps: {_fps.FramesPerSecond}", new Vector2(1.0f, 621.0f), Color.White);
+            _lblTest.Draw(spriteBatch);
+            _lblFps.Text = $"FPS: {_fps.FramesPerSecond}";
+            _lblFps.Draw(spriteBatch);
 
             spriteBatch.End();
         }

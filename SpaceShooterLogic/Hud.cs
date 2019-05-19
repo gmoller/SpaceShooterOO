@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GuiControls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
 
@@ -6,20 +7,23 @@ namespace SpaceShooterLogic
 {
     public class Hud
     {
-        private readonly SpriteFont _font;
+        private readonly Label _lblScore;
+        private readonly Label _lblLives;
 
         public Hud()
         {
-            _font = AssetsManager.Instance.GetSpriteFont("arialSmall");
+            var font = AssetsManager.Instance.GetSpriteFont("arialSmall");
+            _lblScore = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(50.0f, 20.0f), "Score: ", Color.Red) { TextShadow = true };
+            _lblLives = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(DeviceManager.Instance.ScreenWidth - 50.0f, 20.0f), "Lives: ", Color.Red) { TextShadow = true };
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_font, $"Score: {GameEntitiesManager.Instance.Score}", Vector2.Zero, Color.Red);
-            spriteBatch.DrawString(_font, $"Score: {GameEntitiesManager.Instance.Score}", Vector2.One, Color.White);
+            _lblScore.Text = $"Score: {GameEntitiesManager.Instance.Score}";
+            _lblScore.Draw(spriteBatch);
 
-            spriteBatch.DrawString(_font, $"Lives: {GameEntitiesManager.Instance.Lives}", new Vector2(0.0f, 50.0f), Color.Red);
-            spriteBatch.DrawString(_font, $"Lives: {GameEntitiesManager.Instance.Lives}", new Vector2(1.0f, 51.0f), Color.White);
+            _lblLives.Text = $"Lives: {GameEntitiesManager.Instance.Lives}";
+            _lblLives.Draw(spriteBatch);
         }
     }
 }

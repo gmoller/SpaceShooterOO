@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A76CC27F-A50D-413A-A263-422B412302C9}</ProjectGuid>
+    <ProjectGuid>{66F72420-0179-40F6-BD39-AAE0ED6926A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SpaceShooterLogic</RootNamespace>
-    <AssemblyName>SpaceShooterLogic</AssemblyName>
+    <RootNamespace>GuiControls</RootNamespace>
+    <AssemblyName>GuiControls</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,41 +33,16 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdPartyBinaries\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\SpaceShooter\3rdPartyBinaries\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimatedSprite.cs" />
-    <Compile Include="Enemies\CarrierShip.cs" />
-    <Compile Include="Enemies\ChaserShip.cs" />
-    <Compile Include="Enemies\Enemy.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Explosion.cs" />
-    <Compile Include="GameEntitiesManager.cs" />
-    <Compile Include="GameStates\GameOverState.cs" />
-    <Compile Include="GameStates\GamePlayState.cs" />
-    <Compile Include="GameStates\GamePlayStateWithRecording.cs" />
-    <Compile Include="GameStates\GamePlayStateWithReplaying.cs" />
-    <Compile Include="GameStates\IGameState.cs" />
-    <Compile Include="GameStates\MainMenuState.cs" />
-    <Compile Include="Enemies\GunShip.cs" />
-    <Compile Include="Hud.cs" />
-    <Compile Include="MenuButton.cs" />
-    <Compile Include="PhysicsBody.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="PlayerController.cs" />
-    <Compile Include="Projectile.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScrollingBackground.cs" />
-    <Compile Include="ScrollingBackgroundLayer.cs" />
-    <Compile Include="SpaceShooterGame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GuiControls\GuiControls.csproj">
-      <Project>{66f72420-0179-40f6-bd39-aae0ed6926a6}</Project>
-      <Name>GuiControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpaceShooterUtilities\SpaceShooterUtilities.csproj">
       <Project>{473b293b-05e8-4e9f-acc6-49257bf4f258}</Project>
       <Name>SpaceShooterUtilities</Name>

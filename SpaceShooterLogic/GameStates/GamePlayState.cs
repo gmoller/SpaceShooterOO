@@ -38,11 +38,10 @@ namespace SpaceShooterLogic.GameStates
 
             if (GameEntitiesManager.Instance.Player.IsDead)
             {
-                // IDEA: fadeout period
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
                 {
-                    return (true, new GameOverState(new MenuButton("sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.5f))));
+                    return (true, new GameOverState(new MenuButton("sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", DeviceManager.Instance.ScreenDimensions * 0.5f)));
                 }
             }
 
@@ -81,7 +80,7 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
-            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.5f));
+            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), DeviceManager.Instance.ScreenDimensions * 0.5f);
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.Explosions = new Explosions();
             GameEntitiesManager.Instance.Hud = new Hud();

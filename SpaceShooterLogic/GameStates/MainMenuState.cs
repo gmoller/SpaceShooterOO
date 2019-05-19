@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GuiControls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,10 +9,16 @@ namespace SpaceShooterLogic.GameStates
 {
     public class MainMenuState : IGameState
     {
+        private readonly Label _lblTitle;
         private readonly List<MenuButton> _menuItems;
 
         public MainMenuState(params MenuButton[] menuItems)
         {
+            var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
+            string title = "SPACE SHOOTER";
+            _lblTitle = new Label(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
+                new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f),
+                title, Color.Red) {TextShadow = true, TextShadowOffset = new Vector2(5.0f, 5.0f)};
             _menuItems = new List<MenuButton>();
 
             foreach (MenuButton item in menuItems)
@@ -22,6 +29,7 @@ namespace SpaceShooterLogic.GameStates
 
         public void Enter()
         {
+            //IsMouseVisible = true;
             foreach (MenuButton item in _menuItems)
             {
                 item.IsActive = true;
@@ -34,6 +42,7 @@ namespace SpaceShooterLogic.GameStates
             {
                 item.IsActive = false;
             }
+            //IsMouseVisible = false;
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -85,9 +94,7 @@ namespace SpaceShooterLogic.GameStates
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
-            string title = "SPACE SHOOTER";
-            spriteBatch.DrawString(fontArial, title, new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f - fontArial.MeasureString(title).X * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f), Color.White);
+            _lblTitle.Draw(spriteBatch);
 
             foreach (MenuButton item in _menuItems)
             {
