@@ -12,6 +12,10 @@ namespace SpaceShooterUtilities
 
         private Queue<byte> _queue;
 
+        private Replayer()
+        {
+        }
+
         public void ReadInData()
         {
             _queue = new Queue<byte>();

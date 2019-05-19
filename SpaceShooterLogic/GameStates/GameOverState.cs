@@ -10,6 +10,7 @@ namespace SpaceShooterLogic.GameStates
     {
         private readonly Label _lblGameOver;
         private readonly Button _btnRestart;
+        private readonly MetricsDisplay _metricsDisplay;
 
         private bool _startGame;
 
@@ -26,6 +27,8 @@ namespace SpaceShooterLogic.GameStates
                 DeviceManager.Instance.ScreenDimensions * 0.5f, new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnRestart",
                 "sndBtn");
             _btnRestart.OnClick += btnRestart_Click;
+
+            _metricsDisplay = new MetricsDisplay();
         }
 
         public void Enter()
@@ -56,6 +59,8 @@ namespace SpaceShooterLogic.GameStates
             _lblGameOver.Draw(spriteBatch);
 
             _btnRestart.Draw(spriteBatch);
+
+            _metricsDisplay.Draw(spriteBatch);
         }
 
         private void btnRestart_Click(object sender, EventArgs e)

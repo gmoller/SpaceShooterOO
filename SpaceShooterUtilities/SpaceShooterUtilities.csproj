@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetsManager.cs" />
+    <Compile Include="BenchmarkMetrics.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="FramesPerSecondCounter.cs" />
     <Compile Include="Primitives2D.cs" />

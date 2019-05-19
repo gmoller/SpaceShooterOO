@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +17,10 @@ namespace SpaceShooter
         private SpriteBatch _spriteBatch;
 
         private SpaceShooterGame _game;
+        private Stopwatch _updateStopwatch;
+        private Stopwatch _drawStopwatch;
+        private int _updateFrames;
+        private int _drawFrames;
 
         public Game1()
         {
@@ -32,18 +37,19 @@ namespace SpaceShooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //IsMouseVisible = true;
 
             _graphics.PreferredBackBufferWidth = 480;
             _graphics.PreferredBackBufferHeight = 640;
             _graphics.SynchronizeWithVerticalRetrace = false;
 
-            VariableTimeStep();
-            //FixedTimeStep();
+            //VariableTimeStep();
+            FixedTimeStep();
 
             _graphics.ApplyChanges();
 
             _game = new SpaceShooterGame();
+            _updateStopwatch = new Stopwatch();
+            _drawStopwatch = new Stopwatch();
 
             base.Initialize();
         }
@@ -88,15 +94,24 @@ namespace SpaceShooter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            _updateFrames++;
+            _updateStopwatch.Start();
+
             IsMouseVisible = DeviceManager.Instance.IsMouseVisible;
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Escape) && keyboardState.IsKeyDown(Keys.LeftShift))
+            {
                 Exit();
+            }
 
             // TODO: Add your update logic here
             _game.Update(gameTime);
 
             base.Update(gameTime);
+
+            _updateStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["Overall.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
         }
 
         /// <summary>
@@ -105,12 +120,18 @@ namespace SpaceShooter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            _drawFrames++;
+            _drawStopwatch.Start();
+
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             _game.Draw(_spriteBatch);
 
             base.Draw(gameTime);
+
+            _drawStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["Overall.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
     }
 }

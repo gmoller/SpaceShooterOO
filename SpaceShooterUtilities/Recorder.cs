@@ -12,6 +12,10 @@ namespace SpaceShooterUtilities
 
         private List<byte> _recordingData;
 
+        private Recorder()
+        {
+        }
+
         public void StartRecording(byte seed)
         {
             RandomGenerator.Instance.SetNewRandom(seed);

@@ -52,13 +52,6 @@ namespace SpaceShooterLogic
             if (returnGameState.changeGameState) ChangeGameState(returnGameState.newGameState);
         }
 
-        private void ChangeGameState(IGameState newGameState)
-        {
-            _gameState.Leave();
-            _gameState = newGameState;
-            _gameState.Enter();
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             _fps.Draw();
@@ -72,6 +65,13 @@ namespace SpaceShooterLogic
             _lblFps.Draw(spriteBatch);
 
             spriteBatch.End();
+        }
+
+        private void ChangeGameState(IGameState newGameState)
+        {
+            _gameState.Leave();
+            _gameState = newGameState;
+            _gameState.Enter();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SpaceShooterLogic.GameStates
             string title = "SPACE SHOOTER";
             _lblTitle = new Label(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
                 new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.2f),
-                title, Color.Red) {TextShadow = true, TextShadowOffset = new Vector2(5.0f, 5.0f)};
+                title, Color.Red) { TextShadow = true, TextShadowOffset = new Vector2(5.0f, 5.0f) };
 
             _btnPlay = new Button(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
                 DeviceManager.Instance.ScreenDimensions * 0.5f, new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnPlay",

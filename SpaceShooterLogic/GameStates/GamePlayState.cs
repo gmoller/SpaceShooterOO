@@ -14,7 +14,7 @@ namespace SpaceShooterLogic.GameStates
             ResetLevel();
             SetController();
             GameEntitiesManager.Instance.Score = 0;
-            GameEntitiesManager.Instance.Lives = 3;
+            GameEntitiesManager.Instance.Lives = 1; // 3
         }
 
         public virtual void Leave()

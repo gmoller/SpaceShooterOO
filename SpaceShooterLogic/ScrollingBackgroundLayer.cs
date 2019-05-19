@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
@@ -18,5 +19,11 @@ namespace SpaceShooterLogic
             InitialPosition = position;
             Body.Velocity = velocity;
         }
+
+        //public override void Draw(SpriteBatch spriteBatch)
+        //{
+        //    var destinationRectangle = DeviceManager.Instance.Viewport;
+        //    spriteBatch.Draw(Texture, destinationRectangle, Color.White);
+        //}
     }
 }
