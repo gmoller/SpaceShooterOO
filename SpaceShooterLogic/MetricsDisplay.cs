@@ -12,13 +12,14 @@ namespace SpaceShooterLogic
  
         public MetricsDisplay()
         {
-            ColumnHeaders headers = new ColumnHeaders(
-                new ColumnHeader {Name = "Name", HorizontalAlignment = HorizontalAlignment.Left, X = 50.0f},
-                new ColumnHeader {Name = "Time (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 245.0f},
-                new ColumnHeader {Name = "Frames", HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f},
-                new ColumnHeader {Name = "Avg. (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f});
-
-            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, headers);
+            GridColumn[] headers = {
+                new GridColumn { HorizontalAlignment = HorizontalAlignment.Left, Text = "Name", X = 50.0f },
+                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Time (ms)", X = 245.0f },
+                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Frames", X = 335.0f },
+                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Avg. (ms)", X = 425.0f }
+            };
+            
+            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, new GridColumns(headers));
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -31,36 +32,12 @@ namespace SpaceShooterLogic
                 var frames = new GridColumn { Text = entry.Value._frames.ToString(), HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f };
                 var avg = new GridColumn { Text = (entry.Value._elapsedTime / entry.Value._frames).ToString("F"), HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
 
-                var row = new GridRow(_grid, Color.LightBlue, name, time, frames, avg);
+                var gridColumns = new GridColumns(name, time, frames, avg);
+                var row = new GridRow(false, _grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, gridColumns);
                 _grid.AddRow(row);
             }
 
             _grid.Draw(spriteBatch);
-
-            //float y = 425.0f;
-            //foreach (KeyValuePair<string, Metric> entry in BenchmarkMetrics.Instance.Metrics)
-            //{
-            //    // Name
-            //    float x = 50.0f;
-            //    var lbl1 = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(x, y), entry.Key, Color.LightBlue);
-            //    lbl1.Draw(spriteBatch);
-
-            //    // Time
-            //    x = 245.0f;
-            //    var lbl2 = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(x, y), entry.Value._elapsedTime.ToString("F"), Color.LightBlue);
-            //    lbl2.Draw(spriteBatch);
-
-            //    x = 335.0f;
-            //    var lbl3 = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(x, y), entry.Value._frames.ToString(), Color.LightBlue);
-            //    lbl3.Draw(spriteBatch);
-
-            //    double avg = entry.Value._elapsedTime / entry.Value._frames;
-            //    x = 425.0f;
-            //    var lbl4 = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(x, y), avg.ToString("F"), Color.LightBlue);
-            //    lbl4.Draw(spriteBatch);
-
-            //    y += 15.0f;
-            //}
         }
     }
 }
