@@ -12,14 +12,13 @@ namespace SpaceShooterLogic
  
         public MetricsDisplay()
         {
-            GridColumn[] headers = {
-                new GridColumn { HorizontalAlignment = HorizontalAlignment.Left, Text = "Name", X = 50.0f },
-                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Time (ms)", X = 245.0f },
-                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Frames", X = 335.0f },
-                new GridColumn { HorizontalAlignment = HorizontalAlignment.Right, Text = "Avg. (ms)", X = 425.0f }
-            };
-            
-            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, new GridColumns(headers));
+            var name = new GridColumn { Text = "Name", HorizontalAlignment = HorizontalAlignment.Left, X = 50.0f };
+            var time = new GridColumn { Text = "Time (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 245.0f };
+            var frames = new GridColumn { Text = "Frames", HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f };
+            var avg = new GridColumn { Text = "Avg. (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
+
+            var gridColumns = new GridColumns(name, time, frames, avg);
+            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, gridColumns);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -33,7 +32,7 @@ namespace SpaceShooterLogic
                 var avg = new GridColumn { Text = (entry.Value._elapsedTime / entry.Value._frames).ToString("F"), HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
 
                 var gridColumns = new GridColumns(name, time, frames, avg);
-                var row = new GridRow(false, _grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, gridColumns);
+                var row = new GridRow(_grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, gridColumns);
                 _grid.AddRow(row);
             }
 

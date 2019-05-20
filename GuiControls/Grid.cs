@@ -10,7 +10,7 @@ namespace GuiControls
         public SpriteFont RowsFont { get; }
         public Vector2 Position { get; }
 
-        public GridRow Columns { get; }
+        public GridColumnRow Columns { get; }
         public GridRows Rows { get; }
 
         public Grid(SpriteFont headerFont, SpriteFont rowsFont, Color columnHeaderColor, Vector2 position, bool textShadow, GridColumns gridColumns)
@@ -18,7 +18,7 @@ namespace GuiControls
             RowsFont = rowsFont;
             Position = position;
 
-            Columns = new GridRow(true, this, headerFont, columnHeaderColor, gridColumns);
+            Columns = new GridColumnRow(this, headerFont, columnHeaderColor, textShadow, gridColumns);
             Rows = new GridRows();
         }
 
@@ -53,6 +53,11 @@ namespace GuiControls
 
         public GridColumn this[int index] => _items[index];
 
+        public GridColumns()
+        {
+            _items = new List<GridColumn>();
+        }
+
         public GridColumns(params GridColumn[] items)
         {
             _items = new List<GridColumn>();
@@ -60,6 +65,11 @@ namespace GuiControls
             {
                 _items.Add(item);
             }
+        }
+
+        public void Add(GridColumn item)
+        {
+            _items.Add(item);
         }
 
         public IEnumerator<GridColumn> GetEnumerator()
@@ -90,6 +100,11 @@ namespace GuiControls
         public int Count => _items.Count;
 
         public GridRow this[int index] => _items[index];
+
+        public GridRows()
+        {
+            _items = new List<GridRow>();
+        }
 
         public GridRows(params GridRow[] items)
         {
@@ -126,40 +141,44 @@ namespace GuiControls
 
     public class GridRow
     {
-        private readonly List<Label> _items;
+        protected List<Label> Items;
 
-        public GridRow(bool isColumnRow, Grid parent, SpriteFont font, Color color, GridColumns gridColumns)
+        public GridRow()
         {
-            if (isColumnRow)
+        }
+
+        public GridRow(Grid parent, SpriteFont font, Color color, GridColumns gridColumns)
+        {
+            Items = new List<Label>();
+            float y = (parent.Position.Y + 25.0f) + (parent.Rows.Count * 15.0f);
+            foreach (GridColumn gridColumn in gridColumns)
             {
-                _items = new List<Label>();
-                float y = parent.Position.Y;
-                foreach (GridColumn gridColumn in gridColumns)
-                {
-                    float x = gridColumn.X;
-                    var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), gridColumn.Text, color);
-                    _items.Add(label);
-                }
-            }
-            else
-            {
-                _items = new List<Label>();
-                float y = (parent.Position.Y + 25.0f) + (parent.Rows.Count * 15.0f);
-                foreach (GridColumn gridColumn in gridColumns)
-                {
-                    float x = gridColumn.X;
-                    var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), gridColumn.Text, color);
-                    _items.Add(label);
-                }
+                float x = gridColumn.X;
+                var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), gridColumn.Text, color);
+                Items.Add(label);
             }
         }
 
-        // list of labels
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var item in _items)
+            foreach (var item in Items)
             {
                 item.Draw(spriteBatch);
+            }
+        }
+    }
+
+    public class GridColumnRow : GridRow
+    {
+        public GridColumnRow(Grid parent, SpriteFont font, Color color, bool textShadow, GridColumns gridColumns)
+        {
+            Items = new List<Label>();
+            float y = parent.Position.Y;
+            foreach (GridColumn gridColumn in gridColumns)
+            {
+                float x = gridColumn.X;
+                var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), gridColumn.Text, color) { TextShadow = textShadow };
+                Items.Add(label);
             }
         }
     }
