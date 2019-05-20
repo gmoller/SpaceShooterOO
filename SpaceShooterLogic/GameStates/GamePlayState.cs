@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterLogic.Screens;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
@@ -26,7 +27,9 @@ namespace SpaceShooterLogic.GameStates
         public virtual void Leave()
         {
             GameEntitiesManager.Instance.Player = null;
+            GameEntitiesManager.Instance.PlayerProjectiles = null;
             GameEntitiesManager.Instance.Enemies = null;
+            GameEntitiesManager.Instance.EnemyProjectiles = null;
             GameEntitiesManager.Instance.Explosions = null;
         }
 
@@ -42,8 +45,11 @@ namespace SpaceShooterLogic.GameStates
             _updateStopwatch.Start();
 
             GameEntitiesManager.Instance.Player.Update(gameTime);
+            GameEntitiesManager.Instance.PlayerProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Enemies.Update(gameTime);
+            GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Explosions.Update(gameTime);
+            GameEntitiesManager.Instance.Hud.Update(gameTime);
 
             if (GameEntitiesManager.Instance.Player.IsDead)
             {
@@ -88,7 +94,9 @@ namespace SpaceShooterLogic.GameStates
             _drawStopwatch.Start();
 
             GameEntitiesManager.Instance.Player.Draw(spriteBatch);
+            GameEntitiesManager.Instance.PlayerProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
+            GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Explosions.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
 
@@ -99,7 +107,9 @@ namespace SpaceShooterLogic.GameStates
         private void ResetLevel()
         {
             GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), DeviceManager.Instance.ScreenDimensions * 0.5f);
+            GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
+            GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Explosions = new Explosions();
             GameEntitiesManager.Instance.Hud = new Hud();
         }

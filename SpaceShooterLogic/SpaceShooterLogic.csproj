@@ -52,8 +52,8 @@
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="Enemies\GunShip.cs" />
-    <Compile Include="Hud.cs" />
-    <Compile Include="MetricsDisplay.cs" />
+    <Compile Include="Screens\Hud.cs" />
+    <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PhysicsBody.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerController.cs" />

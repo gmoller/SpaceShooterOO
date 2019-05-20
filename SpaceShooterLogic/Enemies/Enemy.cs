@@ -10,8 +10,6 @@ namespace SpaceShooterLogic.Enemies
         protected AnimatedSprite Sprite;
         public float Angle { get; set; }
 
-        protected readonly List<Projectile> Projectiles;
-
         protected Enemy(Texture2D texture, Vector2 position, Vector2 velocity)
         {
             Texture = texture;
@@ -22,15 +20,10 @@ namespace SpaceShooterLogic.Enemies
             Position = position;
             Body.Velocity = velocity;
             SetupBoundingBox(Sprite.FrameWidth, Sprite.FrameHeight);
-
-            Projectiles = new List<Projectile>();
         }
 
         public override void Update(GameTime gameTime)
         {
-            MoveProjectiles(gameTime);
-            ProjectileCollisionDetectionAndResolution();
-
             Sprite.Update(gameTime);
 
             base.Update(gameTime);
@@ -47,47 +40,11 @@ namespace SpaceShooterLogic.Enemies
             spriteBatch.Draw(Texture, destRect, Sprite.SourceRectangle, Color.White, IsRotatable ? MathHelper.ToRadians(Angle) : 0.0f, SourceOrigin, SpriteEffects.None, 0);
 
             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
-
-            foreach (Projectile projectile in Projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
         }
 
         public abstract int Score { get; }
 
         public abstract void UseSpecialPower();
-
-        private void MoveProjectiles(GameTime gameTime)
-        {
-            for (int i = 0; i < Projectiles.Count; i++)
-            {
-                Projectiles[i].Update(gameTime);
-                if (Projectiles[i].Position.Y > DeviceManager.Instance.ScreenHeight)
-                {
-                    Projectiles.Remove(Projectiles[i]);
-                }
-            }
-        }
-
-        private void ProjectileCollisionDetectionAndResolution()
-        {
-            var player = GameEntitiesManager.Instance.Player;
-
-            for (int i = 0; i < Projectiles.Count; i++)
-            {
-                Projectile projectile = Projectiles[i];
-                if (player.IsAlive)
-                {
-                    if (player.Body.BoundingBox.Intersects(projectile.Body.BoundingBox))
-                    {
-                        // enemy projectile kills player
-                        player.KillPlayer();
-                        Projectiles.Remove(projectile);
-                    }
-                }
-            }
-        }
     }
 
     public class Enemies

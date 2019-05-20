@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GuiControls;
+using SpaceShooterLogic.Screens;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates

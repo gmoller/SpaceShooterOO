@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
 
-namespace SpaceShooterLogic
+namespace SpaceShooterLogic.Screens
 {
     public class MetricsDisplay
     {

@@ -15,7 +15,6 @@ namespace SpaceShooterLogic
         private IPlayerController _playerController;
 
         private float _timeElapsedSinceLastPlayerShot; // in milliseconds
-        private readonly List<Projectile> _projectiles;
 
         private readonly AnimatedSprite _sprite;
 
@@ -33,15 +32,11 @@ namespace SpaceShooterLogic
             Body.Velocity = Vector2.Zero;
             SetupBoundingBox(_sprite.FrameWidth, _sprite.FrameHeight);
 
-            _projectiles = new List<Projectile>();
             _timeElapsedSinceLastPlayerShot = PLAYER_LASER_COOLDOWN;
         }
 
         public override void Update(GameTime gameTime)
         {
-            MoveProjectiles(gameTime);
-            ProjectileCollisionDetectionAndResolution();
-
             if (IsDead) return;
 
             Body.Velocity = new Vector2(0, 0);
@@ -61,11 +56,6 @@ namespace SpaceShooterLogic
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var playerLaser in _projectiles)
-            {
-                playerLaser.Draw(spriteBatch);
-            }
-
             if (IsDead) return;
 
             var destRect = new Rectangle(
@@ -92,29 +82,6 @@ namespace SpaceShooterLogic
             Explosion explosion = new Explosion(AssetsManager.Instance.GetTexture("sprExplosion"), explosionPosition);
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             IsDead = true;
-        }
-
-        private void MoveProjectiles(GameTime gameTime)
-        {
-            for (int i = 0; i < _projectiles.Count; i++)
-            {
-                _projectiles[i].Update(gameTime);
-                if (_projectiles[i].Position.Y < 0)
-                {
-                    _projectiles.Remove(_projectiles[i]);
-                }
-            }
-        }
-
-        private void ProjectileCollisionDetectionAndResolution()
-        {
-            for (int i = 0; i < _projectiles.Count; i++)
-            {
-                if (GameEntitiesManager.Instance.Enemies.CollisionDetectionWithProjectile(_projectiles[i]))
-                {
-                    _projectiles.Remove(_projectiles[i]);
-                }
-            }
         }
 
         private void HandleInput(GameTime gameTime)
@@ -146,7 +113,6 @@ namespace SpaceShooterLogic
                             ShootLaser();
                             StartPlayerLaserCooldown();
                         }
-
                         break;
                 }
             }
@@ -171,9 +137,9 @@ namespace SpaceShooterLogic
         private void ShootLaser()
         {
             AssetsManager.Instance.GetSound("sndLaser").Play();
-            var laserPosition = new Vector2(Position.X, Position.Y);
+            var laserPosition = new Vector2(Position.X, Position.Y - 20.0f);
             var projectile = new Projectile(AssetsManager.Instance.GetTexture("sprLaserPlayer"), laserPosition, new Vector2(0, -PLAYER_LASER_VELOCITY));
-            _projectiles.Add(projectile);
+            GameEntitiesManager.Instance.PlayerProjectiles.Add(projectile);
             _timeElapsedSinceLastPlayerShot = 0.0f;
         }
     }

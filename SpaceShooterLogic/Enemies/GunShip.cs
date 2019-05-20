@@ -41,8 +41,8 @@ namespace SpaceShooterLogic.Enemies
         {
             if (CanShoot)
             {
-                var projectile = new Projectile(AssetsManager.Instance.GetTexture("sprLaserEnemy0"), new Vector2(Position.X, Position.Y), new Vector2(0.0f, LASER_VELOCITY));
-                Projectiles.Add(projectile);
+                var projectile = new Projectile(AssetsManager.Instance.GetTexture("sprLaserEnemy0"), new Vector2(Position.X, Position.Y + 30.0f), new Vector2(0.0f, LASER_VELOCITY));
+                GameEntitiesManager.Instance.EnemyProjectiles.Add(projectile);
                 ResetCanShoot();
             }
         }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GuiControls;
 using SpaceShooterUtilities;
 
-namespace SpaceShooterLogic
+namespace SpaceShooterLogic.Screens
 {
     public class Hud
     {
@@ -17,12 +17,15 @@ namespace SpaceShooterLogic
             _lblLives = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(DeviceManager.Instance.ScreenWidth - 50.0f, 20.0f), "Lives: ", Color.Red) { TextShadow = true };
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Update(GameTime gameTime)
         {
             _lblScore.Text = $"Score: {GameEntitiesManager.Instance.Score}";
-            _lblScore.Draw(spriteBatch);
-
             _lblLives.Text = $"Lives: {GameEntitiesManager.Instance.Lives}";
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            _lblScore.Draw(spriteBatch);
             _lblLives.Draw(spriteBatch);
         }
     }
