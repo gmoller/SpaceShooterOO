@@ -21,21 +21,23 @@ namespace SpaceShooterLogic
             _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, gridColumns);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Update(GameTime gameTime)
         {
             _grid.ClearRows();
             foreach (KeyValuePair<string, Metric> entry in BenchmarkMetrics.Instance.Metrics)
             {
-                var name = new GridColumn { Text = entry.Key, HorizontalAlignment = HorizontalAlignment.Left, X = 50.0f };
-                var time = new GridColumn { Text = entry.Value._elapsedTime.ToString("F"), HorizontalAlignment = HorizontalAlignment.Right, X = 245.0f };
-                var frames = new GridColumn { Text = entry.Value._frames.ToString(), HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f };
-                var avg = new GridColumn { Text = (entry.Value._elapsedTime / entry.Value._frames).ToString("F"), HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
+                string name = entry.Key;
+                string time = entry.Value._elapsedTime.ToString("F");
+                string frames = entry.Value._frames.ToString();
+                string avg = (entry.Value._elapsedTime / entry.Value._frames).ToString("F");
 
-                var gridColumns = new GridColumns(name, time, frames, avg);
-                var row = new GridRow(_grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, gridColumns);
+                var row = new GridRow(_grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, name, time, frames, avg);
                 _grid.AddRow(row);
             }
+        }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
             _grid.Draw(spriteBatch);
         }
     }

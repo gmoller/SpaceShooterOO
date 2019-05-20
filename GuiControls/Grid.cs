@@ -10,6 +10,7 @@ namespace GuiControls
         public SpriteFont RowsFont { get; }
         public Vector2 Position { get; }
 
+        public GridColumns ColumnsDefinitions { get; }
         public GridColumnRow Columns { get; }
         public GridRows Rows { get; }
 
@@ -18,6 +19,7 @@ namespace GuiControls
             RowsFont = rowsFont;
             Position = position;
 
+            ColumnsDefinitions = gridColumns;
             Columns = new GridColumnRow(this, headerFont, columnHeaderColor, textShadow, gridColumns);
             Rows = new GridRows();
         }
@@ -155,6 +157,21 @@ namespace GuiControls
             {
                 float x = gridColumn.X;
                 var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), gridColumn.Text, color);
+                Items.Add(label);
+            }
+        }
+
+        public GridRow(Grid parent, SpriteFont font, Color color, params string[] texts)
+        {
+            Items = new List<Label>();
+            float y = (parent.Position.Y + 25.0f) + (parent.Rows.Count * 15.0f);
+
+            int i = 0;
+            foreach (string text in texts)
+            {
+                GridColumn gridColumn = parent.ColumnsDefinitions[i++];
+                float x = gridColumn.X;
+                var label = new Label(font, VerticalAlignment.Top, gridColumn.HorizontalAlignment, new Vector2(x, y), text, color);
                 Items.Add(label);
             }
         }

@@ -45,6 +45,8 @@ namespace SpaceShooterLogic.GameStates
         {
             _btnRestart.Update(gameTime);
 
+            _metricsDisplay.Update(gameTime);
+
             if (_startGame)
             {
                 return (true, new GamePlayState());
