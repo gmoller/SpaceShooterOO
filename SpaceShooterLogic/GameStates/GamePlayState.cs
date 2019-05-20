@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
 
@@ -8,6 +9,11 @@ namespace SpaceShooterLogic.GameStates
     {
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
+
+        private readonly Stopwatch _updateStopwatch = new Stopwatch();
+        private readonly Stopwatch _drawStopwatch = new Stopwatch();
+        private int _updateFrames;
+        private int _drawFrames;
 
         public virtual void Enter()
         {
@@ -32,6 +38,9 @@ namespace SpaceShooterLogic.GameStates
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
         {
+            _updateFrames++;
+            _updateStopwatch.Start();
+
             GameEntitiesManager.Instance.Player.Update(gameTime);
             GameEntitiesManager.Instance.Enemies.Update(gameTime);
             GameEntitiesManager.Instance.Explosions.Update(gameTime);
@@ -44,6 +53,9 @@ namespace SpaceShooterLogic.GameStates
                     return (true, new GameOverState());
                 }
             }
+
+            _updateStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["GamePlayState.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
 
             return (false, null);
         }
@@ -72,10 +84,16 @@ namespace SpaceShooterLogic.GameStates
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            _drawFrames++;
+            _drawStopwatch.Start();
+
             GameEntitiesManager.Instance.Player.Draw(spriteBatch);
             GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
             GameEntitiesManager.Instance.Explosions.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
+
+            _drawStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
         private void ResetLevel()

@@ -17,8 +17,9 @@ namespace SpaceShooter
         private SpriteBatch _spriteBatch;
 
         private SpaceShooterGame _game;
-        private Stopwatch _updateStopwatch;
-        private Stopwatch _drawStopwatch;
+
+        private readonly Stopwatch _updateStopwatch = new Stopwatch();
+        private readonly Stopwatch _drawStopwatch = new Stopwatch();
         private int _updateFrames;
         private int _drawFrames;
 
@@ -48,8 +49,6 @@ namespace SpaceShooter
             _graphics.ApplyChanges();
 
             _game = new SpaceShooterGame();
-            _updateStopwatch = new Stopwatch();
-            _drawStopwatch = new Stopwatch();
 
             base.Initialize();
         }

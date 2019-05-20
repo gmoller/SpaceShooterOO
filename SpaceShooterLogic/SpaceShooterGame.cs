@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +19,11 @@ namespace SpaceShooterLogic
 
         private Label _lblTest;
         private Label _lblFps;
+
+        private readonly Stopwatch _updateStopwatch = new Stopwatch();
+        private readonly Stopwatch _drawStopwatch = new Stopwatch();
+        private int _updateFrames;
+        private int _drawFrames;
 
         public void LoadContent(ContentManager content, int width, int height)
         {
@@ -45,15 +51,24 @@ namespace SpaceShooterLogic
 
         public void Update(GameTime gameTime)
         {
+            _updateFrames++;
+            _updateStopwatch.Start();
+
             _fps.Update(gameTime);
             _scrollingBackground.Update(gameTime);
 
             (bool changeGameState, IGameState newGameState) returnGameState = _gameState.Update(gameTime);
             if (returnGameState.changeGameState) ChangeGameState(returnGameState.newGameState);
+
+            _updateStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            _drawFrames++;
+            _drawStopwatch.Start();
+
             _fps.Draw();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap);
 
@@ -65,6 +80,9 @@ namespace SpaceShooterLogic
             _lblFps.Draw(spriteBatch);
 
             spriteBatch.End();
+
+            _drawStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
         private void ChangeGameState(IGameState newGameState)
