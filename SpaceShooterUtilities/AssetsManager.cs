@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpriteFontPlus;
 
 namespace SpaceShooterUtilities
 {
@@ -13,6 +15,7 @@ namespace SpaceShooterUtilities
         private readonly Dictionary<string, Texture2D> _textures;
         private readonly Dictionary<string, SoundEffect> _sounds;
         private readonly Dictionary<string, SpriteFont> _spriteFonts;
+        private readonly Dictionary<string, DynamicSpriteFont> _dynamicSpriteFonts;
 
         public static AssetsManager Instance => Lazy.Value;
 
@@ -23,6 +26,7 @@ namespace SpaceShooterUtilities
             _textures = new Dictionary<string, Texture2D>();
             _sounds = new Dictionary<string, SoundEffect>();
             _spriteFonts = new Dictionary<string, SpriteFont>();
+            _dynamicSpriteFonts = new Dictionary<string, DynamicSpriteFont>();
         }
 
         public void AddTexture(string key, string assetName)
@@ -79,31 +83,42 @@ namespace SpaceShooterUtilities
             return _sounds[key];
         }
 
+        public void AddSpriteFonts(List<string> fontNames)
+        {
+            foreach (string fontName in fontNames)
+            {
+                AddSpriteFont(fontName, fontName);
+            }
+        }
+
+        public void AddSpriteFonts(params string[] fontNames)
+        {
+            foreach (string fontName in fontNames)
+            {
+                AddSpriteFont(fontName, fontName);
+            }
+        }
+
         public void AddSpriteFont(string key, string assetName)
         {
             var spriteFont = ContentManager.Load<SpriteFont>(assetName);
             _spriteFonts.Add(key, spriteFont);
         }
 
-        public void AddSpriteFonts(List<string> spriteFonts)
+        public void AddDynamicSpriteFont(string fontName)
         {
-            foreach (string spriteFont in spriteFonts)
-            {
-                AddSpriteFont(spriteFont, spriteFont);
-            }
-        }
-
-        public void AddSpriteFonts(params string[] spriteFonts)
-        {
-            foreach (string spriteFont in spriteFonts)
-            {
-                AddSpriteFont(spriteFont, spriteFont);
-            }
+            var dynamicSpriteFont = DynamicSpriteFont.FromTtf(File.ReadAllBytes($@"Content\{fontName}.ttf"), 50);
+            _dynamicSpriteFonts.Add(fontName, dynamicSpriteFont);
         }
 
         public SpriteFont GetSpriteFont(string key)
         {
             return _spriteFonts[key];
+        }
+
+        public DynamicSpriteFont GetDynamicSpriteFont(string key)
+        {
+            return _dynamicSpriteFonts[key];
         }
     }
 }

@@ -244,3 +244,6 @@
 /processorParam:TextureFormat=Color
 /build:sprPlayer.png
 
+#begin The Led Display St.ttf
+/copy:The Led Display St.ttf
+

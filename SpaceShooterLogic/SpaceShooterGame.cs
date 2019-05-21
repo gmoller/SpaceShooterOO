@@ -36,6 +36,7 @@ namespace SpaceShooterLogic
             AssetsManager.Instance.AddSounds("sndBtnDown", "sndBtnOver", "sndLaser", "sndExplode0", "sndExplode1");
             // Load sprite fonts
             AssetsManager.Instance.AddSpriteFonts("arialHeading", "arialSmall", "arialTiny");
+            AssetsManager.Instance.AddDynamicSpriteFont("The Led Display St");
             _font = AssetsManager.Instance.GetSpriteFont("arialTiny");
 
             _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });

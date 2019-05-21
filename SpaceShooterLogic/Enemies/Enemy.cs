@@ -75,12 +75,15 @@ namespace SpaceShooterLogic.Enemies
             var player = GameEntitiesManager.Instance.Player;
             if (player.IsAlive)
             {
+                //for (int i = 0; i < _enemies.Count; i++)
                 foreach (Enemy enemy in _enemies)
                 {
+                    //var enemy = _enemies[i];
                     if (player.Body.BoundingBox.Intersects(enemy.Body.BoundingBox))
                     {
-                        // enemy kills player
+                        // enemy and player collide
                         player.KillPlayer();
+                        KillEnemy(enemy);
                         return;
                     }
 
@@ -108,7 +111,6 @@ namespace SpaceShooterLogic.Enemies
                 {
                     // player projectile kills enemy
                     KillEnemy(enemy);
-                    _enemies.Remove(enemy);
 
                     return true;
                 }
@@ -125,6 +127,7 @@ namespace SpaceShooterLogic.Enemies
             var explosion = new Explosion(AssetsManager.Instance.GetTexture("sprExplosion"), new Vector2(enemy.Position.X, enemy.Position.Y)) { Scale = enemy.Scale };
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             GameEntitiesManager.Instance.Score += enemy.Score;
+            _enemies.Remove(enemy);
         }
 
         private void SpawnEnemies(GameTime gameTime)
