@@ -13,7 +13,7 @@ namespace SpaceShooterLogic.Enemies
         protected Enemy(Texture2D texture, Vector2 position, Vector2 velocity)
         {
             Texture = texture;
-            Sprite = new AnimatedSprite(texture.Width, 16, 16, 160);
+            Sprite = new AnimatedSprite(texture.Width, texture.Height, 16, 16, 160);
             Scale = new Vector2(RandomGenerator.Instance.GetRandomFloat(1.0f, 2.0f));
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
@@ -124,7 +124,7 @@ namespace SpaceShooterLogic.Enemies
             int idx = RandomGenerator.Instance.GetRandomInt(0, 1);
             var sndExplode = AssetsManager.Instance.GetSound($"sndExplode{idx}");
             sndExplode.Play();
-            var explosion = new Explosion(AssetsManager.Instance.GetTexture("sprExplosion"), new Vector2(enemy.Position.X, enemy.Position.Y)) { Scale = enemy.Scale };
+            var explosion = new Explosion(AssetsManager.Instance.GetTexture("Explosion50"), new Vector2(enemy.Position.X, enemy.Position.Y)) { Scale = enemy.Scale };
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             GameEntitiesManager.Instance.Score += enemy.Score;
             _enemies.Remove(enemy);

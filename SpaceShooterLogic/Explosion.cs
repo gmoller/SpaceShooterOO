@@ -11,7 +11,7 @@ namespace SpaceShooterLogic
         public Explosion(Texture2D texture, Vector2 position)
         {
             Texture = texture;
-            Sprite = new AnimatedSprite(texture.Width, 32, 32, 100) { Repeats = false };
+            Sprite = new AnimatedSprite(texture.Width, texture.Height, 128, 128, 50) { IsRepeating = false };
             Scale = new Vector2(1.5f, 1.5f);
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
@@ -30,8 +30,8 @@ namespace SpaceShooterLogic
             var destRect = new Rectangle(
                 (int)Position.X,
                 (int)Position.Y,
-                (int)(Sprite.FrameWidth * Scale.X),
-                (int)(Sprite.FrameHeight * Scale.Y));
+                (int)(Sprite.FrameWidth / 2.0f * Scale.X),
+                (int)(Sprite.FrameHeight / 2.0f * Scale.Y));
             spriteBatch.Draw(Texture, destRect, Sprite.SourceRectangle, Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
         }
     }
