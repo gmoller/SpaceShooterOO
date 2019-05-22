@@ -17,7 +17,7 @@ namespace SpaceShooterLogic.GameStates
         public MainMenuState()
         {
             var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
-            var fontLed = AssetsManager.Instance.GetDynamicSpriteFont("The Led Display St");
+            var fontLed = AssetsManager.Instance.GetSpriteFont("The Led Display St");
 
             string title = "SPACE SHOOTER";
             _lblTitle = new Label(fontLed, VerticalAlignment.Middle, HorizontalAlignment.Center,

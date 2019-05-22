@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
-using SpriteFontPlus;
 
 namespace GuiControls
 {
     public class Label : Control
     {
         private readonly SpriteFont _font;
-        private readonly DynamicSpriteFont _dynamicSpriteFont;
         private readonly Color _textColor;
         private string _text;
 
@@ -41,27 +39,9 @@ namespace GuiControls
             AutoSize(text);
         }
 
-        public Label(DynamicSpriteFont font, VerticalAlignment verticalAlignment, HorizontalAlignment horizontalAlignment, Vector2 position, string text, Color textColor, float scale = 1.0f, float alpha = 1.0f) :
-            base(verticalAlignment, horizontalAlignment, position)
-        {
-            _dynamicSpriteFont = font;
-            _text = text;
-            _textColor = textColor;
-            Scale = scale;
-            Alpha = alpha;
-
-            AutoSize2(text);
-        }
-
         private void AutoSize(string text)
         {
             Vector2 v = _font.MeasureString(text);
-            Size = new Vector2(v.X, v.Y);
-        }
-
-        private void AutoSize2(string text)
-        {
-            Vector2 v = _dynamicSpriteFont.MeasureString(text);
             Size = new Vector2(v.X, v.Y);
         }
 
@@ -75,24 +55,10 @@ namespace GuiControls
 
             if (TextShadow)
             {
-                if (_font != null)
-                {
-                    spriteBatch.DrawString(_font, _text, position + TextShadowOffset, TextShadowColor * Alpha, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0.0f);
-                }
-                else
-                {
-                    spriteBatch.DrawString(_dynamicSpriteFont, _text, position + TextShadowOffset, TextShadowColor * Alpha);
-                }
+                spriteBatch.DrawString(_font, _text, position + TextShadowOffset, TextShadowColor * Alpha, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0.0f);
             }
 
-            if (_font != null)
-            {
-                spriteBatch.DrawString(_font, _text, position, _textColor * Alpha, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0.0f);
-            }
-            else
-            {
-                spriteBatch.DrawString(_dynamicSpriteFont, _text, position, _textColor * Alpha);
-            }
+            spriteBatch.DrawString(_font, _text, position, _textColor * Alpha, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0.0f);
 
             if (DrawBorder)
             {

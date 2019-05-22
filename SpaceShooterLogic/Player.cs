@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +25,7 @@ namespace SpaceShooterLogic
         public Player(Texture2D texture, Vector2 position)
         {
             Texture = texture;
-            _sprite = new AnimatedSprite(texture.Width, texture.Height, 16, 16, 160);
+            _sprite = new AnimatedSprite(texture.Name, texture, 16, 16, 160, true);
             Scale = new Vector2(1.5f, 1.5f);
             SourceOrigin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(_sprite.FrameWidth * 0.5f * Scale.X, _sprite.FrameHeight * 0.5f * Scale.Y);
@@ -42,7 +43,7 @@ namespace SpaceShooterLogic
             Body.Velocity = new Vector2(0, 0);
 
             HandleInput(gameTime);
-            _sprite.Update(gameTime);
+            _sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             base.Update(gameTime);
 
@@ -63,7 +64,7 @@ namespace SpaceShooterLogic
                 (int)Position.Y,
                 (int)(_sprite.FrameWidth * Scale.X),
                 (int)(_sprite.FrameHeight * Scale.Y));
-            spriteBatch.Draw(Texture, destRect, _sprite.SourceRectangle, Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Texture, destRect, _sprite.GetCurrentFrame(), Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
 
             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Red, 1.0f);
         }
@@ -79,7 +80,7 @@ namespace SpaceShooterLogic
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
             sndExplode.Play();
             var explosionPosition = new Vector2(Position.X, Position.Y);
-            Explosion explosion = new Explosion(AssetsManager.Instance.GetTexture("Fireball02"), explosionPosition);
+            Explosion explosion = new Explosion("Fireball02", 128, 128, explosionPosition);
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             IsDead = true;
         }

@@ -32,7 +32,6 @@ namespace SpaceShooterLogic.Enemies
                     CanShoot = true;
                 }
             }
-            Sprite.Update(gameTime);
 
             base.Update(gameTime);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
@@ -13,7 +14,7 @@ namespace SpaceShooterLogic.Enemies
         protected Enemy(Texture2D texture, Vector2 position, Vector2 velocity)
         {
             Texture = texture;
-            Sprite = new AnimatedSprite(texture.Width, texture.Height, 16, 16, 160);
+            Sprite = new AnimatedSprite(texture.Name, texture, 16, 16, 160, true);
             Scale = new Vector2(RandomGenerator.Instance.GetRandomFloat(1.0f, 2.0f));
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
@@ -24,7 +25,7 @@ namespace SpaceShooterLogic.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            Sprite.Update(gameTime);
+            Sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             base.Update(gameTime);
         }
@@ -37,7 +38,7 @@ namespace SpaceShooterLogic.Enemies
                 (int)(Sprite.FrameWidth * Scale.X),
                 (int)(Sprite.FrameHeight * Scale.Y));
 
-            spriteBatch.Draw(Texture, destRect, Sprite.SourceRectangle, Color.White, IsRotatable ? MathHelper.ToRadians(Angle) : 0.0f, SourceOrigin, SpriteEffects.None, 0);
+            spriteBatch.Draw(Texture, destRect, Sprite.GetCurrentFrame(), Color.White, IsRotatable ? MathHelper.ToRadians(Angle) : 0.0f, SourceOrigin, SpriteEffects.None, 0);
 
             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
         }
@@ -124,7 +125,7 @@ namespace SpaceShooterLogic.Enemies
             int idx = RandomGenerator.Instance.GetRandomInt(0, 1);
             var sndExplode = AssetsManager.Instance.GetSound($"sndExplode{idx}");
             sndExplode.Play();
-            var explosion = new Explosion(AssetsManager.Instance.GetTexture("Explosion50"), new Vector2(enemy.Position.X, enemy.Position.Y)) { Scale = enemy.Scale };
+            var explosion = new Explosion("Explosion10",256, 256, new Vector2(enemy.Position.X, enemy.Position.Y)) { Scale = enemy.Scale };
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             GameEntitiesManager.Instance.Score += enemy.Score;
             _enemies.Remove(enemy);

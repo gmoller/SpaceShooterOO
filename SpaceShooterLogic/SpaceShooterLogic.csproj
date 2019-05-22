@@ -42,7 +42,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Enemies\CarrierShip.cs" />
     <Compile Include="Enemies\ChaserShip.cs" />
     <Compile Include="Enemies\Enemy.cs" />
@@ -68,6 +67,10 @@
     <Compile Include="SpaceShooterGame.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
+      <Project>{d6526af1-1701-4e6e-9123-cd06f33565c9}</Project>
+      <Name>AnimationLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GuiControls\GuiControls.csproj">
       <Project>{66f72420-0179-40f6-bd39-aae0ed6926a6}</Project>
       <Name>GuiControls</Name>

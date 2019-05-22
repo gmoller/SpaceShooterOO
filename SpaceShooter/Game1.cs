@@ -49,6 +49,7 @@ namespace SpaceShooter
             _graphics.ApplyChanges();
 
             _game = new SpaceShooterGame();
+            _game.Initialize(GraphicsDevice);
 
             base.Initialize();
         }

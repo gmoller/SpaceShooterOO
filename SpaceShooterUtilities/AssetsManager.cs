@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SpriteFontPlus;
 
 namespace SpaceShooterUtilities
 {
@@ -15,7 +13,6 @@ namespace SpaceShooterUtilities
         private readonly Dictionary<string, Texture2D> _textures;
         private readonly Dictionary<string, SoundEffect> _sounds;
         private readonly Dictionary<string, SpriteFont> _spriteFonts;
-        private readonly Dictionary<string, DynamicSpriteFont> _dynamicSpriteFonts;
 
         public static AssetsManager Instance => Lazy.Value;
 
@@ -26,7 +23,6 @@ namespace SpaceShooterUtilities
             _textures = new Dictionary<string, Texture2D>();
             _sounds = new Dictionary<string, SoundEffect>();
             _spriteFonts = new Dictionary<string, SpriteFont>();
-            _dynamicSpriteFonts = new Dictionary<string, DynamicSpriteFont>();
         }
 
         public void AddTexture(string key, string assetName)
@@ -49,6 +45,11 @@ namespace SpaceShooterUtilities
             {
                 AddTexture(texture, texture);
             }
+        }
+
+        public void AddTexture(string key, Texture2D texture)
+        {
+            _textures.Add(key, texture);
         }
 
         public Texture2D GetTexture(string key)
@@ -105,20 +106,14 @@ namespace SpaceShooterUtilities
             _spriteFonts.Add(key, spriteFont);
         }
 
-        public void AddDynamicSpriteFont(string fontName)
+        public void AddSpriteFont(string key, SpriteFont font)
         {
-            var dynamicSpriteFont = DynamicSpriteFont.FromTtf(File.ReadAllBytes($@"Content\{fontName}.ttf"), 50);
-            _dynamicSpriteFonts.Add(fontName, dynamicSpriteFont);
+            _spriteFonts.Add(key, font);
         }
 
         public SpriteFont GetSpriteFont(string key)
         {
             return _spriteFonts[key];
-        }
-
-        public DynamicSpriteFont GetDynamicSpriteFont(string key)
-        {
-            return _dynamicSpriteFonts[key];
         }
     }
 }
