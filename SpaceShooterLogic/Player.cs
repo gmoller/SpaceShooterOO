@@ -25,7 +25,8 @@ namespace SpaceShooterLogic
         public Player(Texture2D texture, Vector2 position)
         {
             Texture = texture;
-            _sprite = new AnimatedSprite(texture.Name, texture, 16, 16, 160, true);
+            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(texture.Name);
+            _sprite = new AnimatedSprite(animationSpec);
             Scale = new Vector2(1.5f, 1.5f);
             SourceOrigin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(_sprite.FrameWidth * 0.5f * Scale.X, _sprite.FrameHeight * 0.5f * Scale.Y);
@@ -79,8 +80,12 @@ namespace SpaceShooterLogic
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
             sndExplode.Play();
+
+            Texture2D texture = AssetsManager.Instance.GetTexture("Fireball02");
+            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(texture.Name);
             var explosionPosition = new Vector2(Position.X, Position.Y);
-            Explosion explosion = new Explosion("Fireball02", 128, 128, explosionPosition);
+            var playerSize = new Vector2(Body.BoundingBox.Width, Body.BoundingBox.Height);
+            var explosion = new Explosion(texture, animationSpec, explosionPosition, playerSize);
             GameEntitiesManager.Instance.Explosions.Add(explosion);
             IsDead = true;
         }

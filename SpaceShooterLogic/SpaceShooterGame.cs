@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GuiControls;
 using SpaceShooterLogic.GameStates;
 using SpaceShooterUtilities;
-using SpriteFontPlus;
 
 namespace SpaceShooterLogic
 {
@@ -30,86 +28,7 @@ namespace SpaceShooterLogic
 
         public void Initialize(GraphicsDevice graphicsDevice)
         {
-            string[] ttfFiles = GetAnyFilesFromContentDirectory("*.ttf");
-            List<SpriteFont> fonts = BakeTtfFiles(ttfFiles, graphicsDevice);
-            AddToAssetsManager(ttfFiles, fonts);
-
-            string[] pngFiles = GetAnyFilesFromContentDirectory("*.png");
-            List<Texture2D> textures = BakeTextures(pngFiles, graphicsDevice);
-            AddToAssetsManager(pngFiles, textures);
-        }
-
-        private string[] GetAnyFilesFromContentDirectory(string searchPattern)
-        {
-            string path = $@"{Directory.GetCurrentDirectory()}\Content\";
-            var directoryInfo = new DirectoryInfo(path);
-
-            FileInfo[] ttfFiles = { };
-            if (directoryInfo.Exists)
-            {
-                // get any ttf files
-                ttfFiles = directoryInfo.GetFiles(searchPattern);
-            }
-
-            return ttfFiles.Select(item => item.FullName).ToArray();
-        }
-
-        private List<SpriteFont> BakeTtfFiles(string[] ttfFiles, GraphicsDevice graphicsDevice)
-        {
-            var fonts = new List<SpriteFont>();
-
-            foreach (string file in ttfFiles)
-            {
-                TtfFontBakerResult bakeResult = TtfFontBaker.Bake(File.ReadAllBytes(file), 50, 256, 256, new[]
-                {
-                    CharacterRange.BasicLatin,
-                    //CharacterRange.Latin1Supplement,
-                    //CharacterRange.LatinExtendedA,
-                    //CharacterRange.LatinExtendedB,
-                    //CharacterRange.Cyrillic,
-                    //CharacterRange.CyrillicSupplement,
-                    //CharacterRange.Hiragana,
-                    //CharacterRange.Katakana
-                });
-                SpriteFont font = bakeResult.CreateSpriteFont(graphicsDevice);
-                fonts.Add(font);
-            }
-
-            return fonts;
-        }
-
-        private List<Texture2D> BakeTextures(string[] pngFiles, GraphicsDevice graphicsDevice)
-        {
-            var textures = new List<Texture2D>();
-
-            foreach (string file in pngFiles)
-            {
-                using (FileStream fileStream = new FileStream(file, FileMode.Open))
-                {
-                    Texture2D texture = Texture2D.FromStream(graphicsDevice, fileStream);
-                    textures.Add(texture);
-                }
-            }
-
-            return textures;
-        }
-
-        private void AddToAssetsManager(string[] files, List<SpriteFont> fonts)
-        {
-            int i = 0;
-            foreach (SpriteFont font in fonts)
-            {
-                AssetsManager.Instance.AddSpriteFont(Path.GetFileNameWithoutExtension(files[i++]), font);
-            }
-        }
-
-        private void AddToAssetsManager(string[] files, List<Texture2D> textures)
-        {
-            int i = 0;
-            foreach (Texture2D texture in textures)
-            {
-                AssetsManager.Instance.AddTexture(Path.GetFileNameWithoutExtension(files[i++]), texture);
-            }
+            ContentLoader.LoadContent(graphicsDevice);
         }
 
         public void LoadContent(ContentManager content, int width, int height)
@@ -134,6 +53,13 @@ namespace SpaceShooterLogic
 
             _lblTest = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(0.0f, 0.0f), "Testing, testing, testing, 1, 2, 3...", Color.Cyan, 1.0f, 0.5f);
             _lblFps = new Label(_font, VerticalAlignment.Bottom, HorizontalAlignment.Right, DeviceManager.Instance.ScreenDimensions, "FPS: ", Color.Cyan) { TextShadow = true };
+
+            AssetsManager.Instance.AddAnimation("sprPlayer", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprPlayer"), 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy0", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy0"), 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy1", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy1"), 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy2", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy2"), 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("Fireball02", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("Fireball02"), 128, 128, 20, false));
+            AssetsManager.Instance.AddAnimation("Explosion10", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("Explosion10"), 256, 256, 20, false));
         }
 
         public void Update(GameTime gameTime)

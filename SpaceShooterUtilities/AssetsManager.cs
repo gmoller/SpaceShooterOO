@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AnimationLibrary;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +12,7 @@ namespace SpaceShooterUtilities
         private static readonly Lazy<AssetsManager> Lazy = new Lazy<AssetsManager>(() => new AssetsManager());
 
         private readonly Dictionary<string, Texture2D> _textures;
+        private readonly Dictionary<string, AnimationSpec> _animations;
         private readonly Dictionary<string, SoundEffect> _sounds;
         private readonly Dictionary<string, SpriteFont> _spriteFonts;
 
@@ -21,10 +23,12 @@ namespace SpaceShooterUtilities
         private AssetsManager()
         {
             _textures = new Dictionary<string, Texture2D>();
+            _animations = new Dictionary<string, AnimationSpec>();
             _sounds = new Dictionary<string, SoundEffect>();
             _spriteFonts = new Dictionary<string, SpriteFont>();
         }
 
+        #region Textures
         public void AddTexture(string key, string assetName)
         {
             var texture = ContentManager.Load<Texture2D>(assetName);
@@ -56,7 +60,21 @@ namespace SpaceShooterUtilities
         {
             return _textures[key];
         }
- 
+        #endregion
+
+        #region Animations
+        public void AddAnimation(string key, AnimationSpec spec)
+        {
+            _animations.Add(key, spec);
+        }
+
+        public AnimationSpec GetAnimations(string key)
+        {
+            return _animations[key];
+        }
+        #endregion
+
+        #region Sounds
         public void AddSound(string key, string assetName)
         {
             var sound = ContentManager.Load<SoundEffect>(assetName);
@@ -83,7 +101,9 @@ namespace SpaceShooterUtilities
         {
             return _sounds[key];
         }
+        #endregion
 
+        #region SpriteFonts
         public void AddSpriteFonts(List<string> fontNames)
         {
             foreach (string fontName in fontNames)
@@ -115,5 +135,6 @@ namespace SpaceShooterUtilities
         {
             return _spriteFonts[key];
         }
+        #endregion
     }
 }

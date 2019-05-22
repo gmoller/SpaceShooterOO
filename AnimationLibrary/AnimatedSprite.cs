@@ -13,32 +13,16 @@ namespace AnimationLibrary
         public int FrameWidth => _spec.Frames[_currentFrame].Width;
         public int FrameHeight => _spec.Frames[_currentFrame].Height;
 
-        public AnimatedSprite(string name, Texture2D spriteSheetTexture, int frameWidth, int frameHeight, int duration, bool isRepeating)
+        public AnimatedSprite(AnimationSpec spec)
         {
-            // try load spec
-            // if it's not there build spec
-            var spec = new AnimationSpec { SpriteSheet = name, Duration = duration, Repeating = isRepeating };
-
-            int cols = spriteSheetTexture.Width / frameWidth;
-            int rows = spriteSheetTexture.Height / frameHeight;
-            spec.NumberOfFrames = cols * rows;
-            spec.Frames = new Rectangle[spec.NumberOfFrames];
-
-            int x = 0;
-            int y = 0;
-            for (int i = 0; i < spec.NumberOfFrames; i++)
-            {
-                spec.Frames[i] = new Rectangle(x, y, frameWidth, frameHeight);
-                x += frameWidth;
-                if (x >= spriteSheetTexture.Width)
-                {
-                    x = 0;
-                    y += frameHeight;
-                }
-            }
-
             _spec = spec;
         }
+
+        //public AnimatedSprite(string name, Texture2D spriteSheetTexture, int frameWidth, int frameHeight, int duration, bool isRepeating)
+        //{
+        //    // TODO: try load spec, if it's not there build spec
+        //    _spec = AnimationSpecCreator.Create(name, spriteSheetTexture, frameWidth, frameHeight, duration, isRepeating);
+        //}
 
         public void Update(float deltaTime)
         {

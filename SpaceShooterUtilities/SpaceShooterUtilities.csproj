@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AssetsManager.cs" />
     <Compile Include="BenchmarkMetrics.cs" />
+    <Compile Include="ContentLoader.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="FramesPerSecondCounter.cs" />
     <Compile Include="Primitives2D.cs" />
@@ -50,6 +51,12 @@
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Recorder.cs" />
     <Compile Include="Replayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
+      <Project>{d6526af1-1701-4e6e-9123-cd06f33565c9}</Project>
+      <Name>AnimationLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
