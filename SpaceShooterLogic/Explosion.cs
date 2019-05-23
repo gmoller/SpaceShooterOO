@@ -2,7 +2,6 @@
 using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
@@ -14,10 +13,10 @@ namespace SpaceShooterLogic
         {
             Texture = texture;
             Sprite = new AnimatedSprite(animationSpec);
-            Scale = new Vector2(Sprite.FrameWidth / size.X, Sprite.FrameHeight / size.Y) / 4.0f;
+            Scale = new Vector2(size.X / Sprite.FrameWidth, size.Y / Sprite.FrameHeight);
 
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
-            DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f / Scale.X, Sprite.FrameHeight * 0.5f / Scale.Y);
+            DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
             Position = position;
             Body.Velocity = Vector2.Zero;
             SetupBoundingBox(Sprite.FrameWidth, Sprite.FrameHeight);
@@ -33,12 +32,12 @@ namespace SpaceShooterLogic
             var destRect = new Rectangle(
                 (int)Position.X,
                 (int)Position.Y,
-                (int)(Sprite.FrameWidth / Scale.X),
-                (int)(Sprite.FrameHeight / Scale.Y));
+                (int)(Sprite.FrameWidth * Scale.X),
+                (int)(Sprite.FrameHeight * Scale.Y));
 
              spriteBatch.Draw(Texture, destRect, Sprite.GetCurrentFrame(), Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
 
-             spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
+             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
         }
     }
 

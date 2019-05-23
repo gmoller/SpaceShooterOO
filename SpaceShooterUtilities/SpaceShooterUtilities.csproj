@@ -51,6 +51,7 @@
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Recorder.cs" />
     <Compile Include="Replayer.cs" />
+    <Compile Include="ResolutionIndependentRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
