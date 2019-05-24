@@ -34,6 +34,18 @@
 /processorParam:TextureFormat=Compressed
 /build:arialTiny.spritefont
 
+#begin Explosion10.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Explosion10.png
+
 #begin Explosion50.png
 /importer:TextureImporter
 /processor:TextureProcessor
