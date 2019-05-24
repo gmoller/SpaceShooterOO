@@ -13,7 +13,7 @@ namespace SpaceShooterLogic
         {
             Texture = texture;
             Sprite = new AnimatedSprite(animationSpec);
-            Scale = new Vector2(size.X / Sprite.FrameWidth, size.Y / Sprite.FrameHeight);
+            Scale = new Vector2(size.X / Sprite.FrameWidth, size.Y / Sprite.FrameHeight) * 4.0f;
 
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);

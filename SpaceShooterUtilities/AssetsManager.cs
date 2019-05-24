@@ -29,12 +29,6 @@ namespace SpaceShooterUtilities
         }
 
         #region Textures
-        public void AddTexture(string key, string assetName)
-        {
-            var texture = ContentManager.Load<Texture2D>(assetName);
-            _textures.Add(key, texture);
-        }
-
         public void AddTextures(List<string> textures)
         {
             foreach (string texture in textures)
@@ -51,8 +45,19 @@ namespace SpaceShooterUtilities
             }
         }
 
+        public void AddTexture(string assetName)
+        {
+            AddTexture(assetName, assetName);
+        }
+
         public void AddTexture(string key, Texture2D texture)
         {
+            _textures.Add(key, texture);
+        }
+
+        public void AddTexture(string key, string assetName)
+        {
+            var texture = ContentManager.Load<Texture2D>(assetName);
             _textures.Add(key, texture);
         }
 
@@ -75,12 +80,6 @@ namespace SpaceShooterUtilities
         #endregion
 
         #region Sounds
-        public void AddSound(string key, string assetName)
-        {
-            var sound = ContentManager.Load<SoundEffect>(assetName);
-            _sounds.Add(key, sound);
-        }
-
         public void AddSounds(List<string> sounds)
         {
             foreach (string sound in sounds)
@@ -95,6 +94,17 @@ namespace SpaceShooterUtilities
             {
                 AddSound(sound, sound);
             }
+        }
+
+        public void AddSound(string assetName)
+        {
+            AddSound(assetName, assetName);
+        }
+
+        public void AddSound(string key, string assetName)
+        {
+            var sound = ContentManager.Load<SoundEffect>(assetName);
+            _sounds.Add(key, sound);
         }
 
         public SoundEffect GetSound(string key)
@@ -118,6 +128,11 @@ namespace SpaceShooterUtilities
             {
                 AddSpriteFont(fontName, fontName);
             }
+        }
+
+        public void AddSpriteFont(string assetName)
+        {
+            AddSpriteFont(assetName, assetName);
         }
 
         public void AddSpriteFont(string key, string assetName)

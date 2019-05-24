@@ -10,7 +10,7 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
-    public class SpaceShooterGame
+    public class SpaceShooterGame : IGame
     {
         private FramesPerSecondCounter _fps;
         private SpriteFont _font;
@@ -26,7 +26,7 @@ namespace SpaceShooterLogic
         private int _updateFrames;
         private int _drawFrames;
 
-        public void Initialize(GraphicsDevice graphicsDevice)
+        public void Initialize(GameWindow window, GraphicsDevice graphicsDevice)
         {
             ContentLoader.LoadContent(graphicsDevice);
         }

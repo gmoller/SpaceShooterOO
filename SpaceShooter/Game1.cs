@@ -16,7 +16,7 @@ namespace SpaceShooter
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private SpaceShooterGame _game;
+        private IGame _game;
 
         private readonly Stopwatch _updateStopwatch = new Stopwatch();
         private readonly Stopwatch _drawStopwatch = new Stopwatch();
@@ -27,6 +27,7 @@ namespace SpaceShooter
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Position = Point.Zero;
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace SpaceShooter
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = 480;
-            _graphics.PreferredBackBufferHeight = 640;
+            _graphics.PreferredBackBufferWidth = 480; // 480
+            _graphics.PreferredBackBufferHeight = 640; // 640
             _graphics.SynchronizeWithVerticalRetrace = false;
 
             VariableTimeStep();
@@ -49,7 +50,8 @@ namespace SpaceShooter
             _graphics.ApplyChanges();
 
             _game = new SpaceShooterGame();
-            _game.Initialize(GraphicsDevice);
+            //_game = new TestBedGame();
+            _game.Initialize(Window, GraphicsDevice);
 
             base.Initialize();
         }
